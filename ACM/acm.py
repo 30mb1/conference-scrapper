@@ -2,6 +2,7 @@ import base64
 import json
 import re
 from os import makedirs
+from os.path import isfile
 
 import requests
 from bs4 import BeautifulSoup as bs
@@ -39,20 +40,24 @@ def parse_index_page():
     return result
 
 
-def download_pages(conferences):
+def download_pages(conferences, force_reload=False):
     result = {}
     driver = webdriver.Firefox()
 
     try:
         for link in tqdm(conferences):
-            driver.get(link)
+            if not force_reload and isfile(PAGE_DIR + format_filename(link)):
+                with open(PAGE_DIR + format_filename(link)) as file:
+                    result[link] = file.read()
+            else:
+                driver.get(link)
 
-            WebDriverWait(driver, 30).until(
-                EC.presence_of_element_located((By.ID, "TopChoices"))
-            )
-            result[link] = driver.page_source
-            with open(PAGE_DIR + format_filename(link), mode='w') as file:
-                file.write(result[link])
+                WebDriverWait(driver, 30).until(
+                    EC.presence_of_element_located((By.ID, "TopChoices"))
+                )
+                result[link] = driver.page_source
+                with open(PAGE_DIR + format_filename(link), mode='w') as file:
+                    file.write(result[link])
     finally:
         driver.quit()
 
