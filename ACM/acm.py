@@ -22,7 +22,7 @@ USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) ' \
 def init():
     for path in (PAGE_DIR, '../result/'):
         try:
-            makedirs(PAGE_DIR)
+            makedirs(path)
         except FileExistsError:
             pass
 
@@ -70,11 +70,11 @@ def parse_pages(sources):
         soup = bs(page, 'html.parser')
 
         short_title = soup.find('strong', style='padding-right:10px')
-        short_id = short_title.text
-        title = short_title.nextSibling.text
+        short_id = short_title.text.strip()
+        title = short_title.nextSibling.text.strip()
 
         table = soup.find('td', style='padding:10px;  border:thin #000 solid')
-        parsed_table = [x.text for x in table.children if x != '\n']
+        parsed_table = [x.text.strip() for x in table.children if x != '\n']
 
         description = soup.find(id='toShow1')
         description = description.text.strip()
