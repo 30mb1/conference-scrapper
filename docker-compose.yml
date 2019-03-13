@@ -55,10 +55,12 @@ services:
 
   celeryworker:
     <<: *django
+    ports: []
     command: /start-celeryworker
 
   celerybeat:
     <<: *django
+    ports: []
     command: /start-celerybeat
 
   flower:

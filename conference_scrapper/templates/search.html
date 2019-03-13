@@ -1,0 +1,63 @@
+{% load static i18n %}
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+{% block css %}
+    <link href="{% static 'css/search-filter.css' %}" rel="stylesheet">
+{% endblock css %}
+
+
+<div class="container">
+    <div class="row">
+        <h3>Find conference</h3>
+    </div>
+  <div class="row searchFilter" >
+      <div class="col-12" >
+          <form action="/action_page.php" method="get">
+      <div class="input-group" >
+       <input id="table_filter" type="text" class="form-control" aria-label="Text input with segmented button dropdown" name="vgh">
+       <div class="input-group-btn" >
+        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><span class="label-icon" >Filter by</span> <span class="caret" >&nbsp;</span></button>
+        <div class="dropdown-menu dropdown-menu-right" >
+           <ul class="category_filters" >
+            <li >
+             <input class="cat_type category-input" data-label="All" id="all" value="" name="radios" type="radio" ><label for="all" >All</label>
+            </li>
+            <li >
+             <input type="radio" name="radios" id="Design" value="Design" ><label class="category-label" for="Design" >Design</label>
+            </li>
+            <li >
+             <input type="radio" name="radios" id="Marketing" value="Marketing" ><label class="category-label" for="Marketing" >Marketing</label>
+            </li>
+            <li >
+             <input type="radio" name="radios" id="Programming" value="Programming" ><label class="category-label" for="Programming" >Programming</label>
+            </li>
+            <li >
+             <input type="radio" name="radios" id="Sales" value="Sales" ><label class="category-label" for="Sales" >Sales</label>
+            </li>
+            <li >
+             <input type="radio" name="radios" id="Support" value="Support" ><label class="category-label" for="Support" >Support</label>
+            </li>
+           </ul>
+        </div>
+        <button id="searchBtn" type="submit" class="btn btn-secondary btn-search" ><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon" >Search</span></button>
+       </div>
+      </div>
+      </form>
+     </div>
+
+
+  </div>
+    <div class="row">
+          <div class="col-sm">
+              Something
+          </div>
+          <div class="col-sm">
+              Another
+          </div>
+      </div>
+</div>
