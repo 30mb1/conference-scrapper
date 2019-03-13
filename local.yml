@@ -1,0 +1,68 @@
+version: '3'
+
+volumes:
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+  local_rabbitmq_data: {}
+
+
+services:
+  django: &django
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: conference_scrapper_local_python
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    environment:
+      - POSTGRES_DB=scrapper
+      - POSTGRES_USER=scrapper
+      - POSTGRES_PASSWORD=scrapper
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - DJANGO_SETTINGS_MODULE=config.settings.local
+      - CELERY_BROKER_URL=amqp://rabbitmq:rabbitmq@rabbitmq//
+    ports:
+      - "8000:8000"
+    command: sh -c "python manage.py migrate && python manage.py runserver_plus 0.0.0.0:8000"
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: conference_scrapper_production_postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+      - local_postgres_data_backups:/backups
+    environment:
+      - POSTGRES_DB=scrapper
+      - POSTGRES_USER=scrapper
+      - POSTGRES_PASSWORD=scrapper
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    environment:
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+    volumes:
+      - local_rabbitmq_data:/var/lib/rabbitmq
+
+  celeryworker:
+    <<: *django
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *django
+    command: /start-celerybeat
+
+  flower:
+    <<: *django
+    ports:
+      - "5555:5555"
+    command: /start-flower
