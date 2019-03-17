@@ -3,14 +3,11 @@ import numpy as np
 import networkx as nx
 
 
-def create_graph_from_edge_list(path, scale=2000):
+def create_graph_from_edge_list(path, scale=1500):
     # path - path to file with data
     data = pd.read_csv(path)
     st = set()
     weights = {}
-    for num, line in data.iterrows():
-        from_, to_ = line['id_1'], line['id_2']
-        weights[(from_, to_)] = len(line['matches'].split('#'))
     st = list(st)
     tags = list()
     for tag in data['matches']:
@@ -37,9 +34,10 @@ def create_graph_from_edge_list(path, scale=2000):
         first = data['id_1'].iloc[i]
         second = data['id_2'].iloc[i]
         tag = data['matches'].iloc[i]
+        weight = data['n'].iloc[i]
         for tmp in tag.split('#'):
             if tmp in tags:
-                g.add_edge(first, second, weight=weights[(first, second)], matches=tag)
+                g.add_edge(first, second, weight=weight, matches=tag)
     g.remove_nodes_from(list(nx.isolates(g)))
     pos = nx.spring_layout(g, k = 0.05, iterations=20)
     ids = list(g.nodes())
@@ -54,10 +52,22 @@ def create_graph_from_edge_list(path, scale=2000):
     p[:, 0] = np.asarray(x)
     p[:, 1] = np.asarray(y)
 
+
     pos_new = nx.rescale_layout(p, scale=scale)
+
+    min_x, max_x = min(pos_new[:, 0]), max(pos_new[:, 0])
+    min_y, max_y = min(pos_new[:, 1]), max(pos_new[:, 1])
+
+
+    pos_new[:, 0] += abs(min_x)
+    pos_new[:, 0] /= ((abs(min_x) + max_x) / 1000)
+
+    pos_new[:, 1] += abs(min_y)
+    pos_new[:, 1] /= ((abs(min_y) + max_y) / 1000)
+
+    print (pos_new)
+
     pos = dict()
     for i in range(len(ids)):
         pos[ids[i]] = (pos_new[i][0], pos_new[i][1])
-        x[i] = pos_new[i][0]
-        y[i] = pos_new[i][1]
     return g, pos

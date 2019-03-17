@@ -17,10 +17,14 @@ class GraphView(TemplateView):
 
         conf_list = {}
         for key, value in pos.items():
-            conf_list[key] = (key, value[0], value[1])
+            conf_list[key] = (value[0], value[1], key, "", "", "", "", "")
 
         context['conf_list'] = conf_list
         context['edge_list'] = edge_list
-        context['vert_radius'] = 20
-        context['edge_width'] = 5
+        context['vert_radius'] = 2
+        context['edge_width'] = 1
+
+        context['canvas_width'] = 1000
+        context['canvas_height'] = 1000
+
         return context
