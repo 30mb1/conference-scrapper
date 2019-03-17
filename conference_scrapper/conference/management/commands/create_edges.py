@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         filenames, separator = options['filenames'], '#'
         for name in filenames:
-            with open(name) as f:
+            with open(f'data/{name}') as f:
                 data = json.load(f)
             edge_list = []
             for i in range(len(data)):

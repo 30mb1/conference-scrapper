@@ -8,6 +8,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends gettext && apt-
 COPY ./requirements /requirements
 RUN pip install -r /requirements/local.txt
 
+COPY ./compose/production/django/entrypoint /entrypoint
+RUN sed -i 's/\r//' /entrypoint
+RUN chmod +x /entrypoint
+
+
 WORKDIR /app
 
 ENTRYPOINT ["/entrypoint"]
