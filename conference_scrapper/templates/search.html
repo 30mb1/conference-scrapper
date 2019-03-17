@@ -1,63 +1,107 @@
-{% load static i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SRS project | Search page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-{% block css %}
-    <link href="{% static 'css/search-filter.css' %}" rel="stylesheet">
-{% endblock css %}
-
-
-<div class="container">
-    <div class="row">
-        <h3>Find conference</h3>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+</head>
+<body class="bg-light">
+  <div class="container">
+    <!-- Header -->
+    <div class="py-5 text-center">
+      <h2>Search page</h2>
+      <p class="lead">Search the data with this outstandingly good user interface!</p>
     </div>
-  <div class="row searchFilter" >
-      <div class="col-12" >
-          <form action="/action_page.php" method="get">
-      <div class="input-group" >
-       <input id="table_filter" type="text" class="form-control" aria-label="Text input with segmented button dropdown" name="vgh">
-       <div class="input-group-btn" >
-        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><span class="label-icon" >Filter by</span> <span class="caret" >&nbsp;</span></button>
-        <div class="dropdown-menu dropdown-menu-right" >
-           <ul class="category_filters" >
-            <li >
-             <input class="cat_type category-input" data-label="All" id="all" value="" name="radios" type="radio" ><label for="all" >All</label>
-            </li>
-            <li >
-             <input type="radio" name="radios" id="Design" value="Design" ><label class="category-label" for="Design" >Design</label>
-            </li>
-            <li >
-             <input type="radio" name="radios" id="Marketing" value="Marketing" ><label class="category-label" for="Marketing" >Marketing</label>
-            </li>
-            <li >
-             <input type="radio" name="radios" id="Programming" value="Programming" ><label class="category-label" for="Programming" >Programming</label>
-            </li>
-            <li >
-             <input type="radio" name="radios" id="Sales" value="Sales" ><label class="category-label" for="Sales" >Sales</label>
-            </li>
-            <li >
-             <input type="radio" name="radios" id="Support" value="Support" ><label class="category-label" for="Support" >Support</label>
-            </li>
-           </ul>
-        </div>
-        <button id="searchBtn" type="submit" class="btn btn-secondary btn-search" ><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon" >Search</span></button>
-       </div>
-      </div>
-      </form>
-     </div>
+    <!-- Header end -->
 
+    <!-- Search form -->
+    <form>
+      <div class="row form-group">
+        <div class="col-5">
+          <label for="search">Specify your search query</label>
+          <input type="text" class="form-control" id="search" placeholder="e.g. hydra.com" name="search" required>
+        </div>
+
+        <div class="col-3">
+          <div class="date">
+            <label for="date">Date</label>
+            <input type="text" class="form-control" id="date" name="date">
+          </div>
+        </div>
+
+        <div class="col-2">
+          <label for="filter">Filter</label>
+          <select class="custom-select d-block" id="filter" name="filter">
+            <option value="">Choose...</option>
+            <option>California</option>
+          </select>
+        </div>
+
+        <div class="col-1">
+          <label>&nbsp;</label>
+          <button type="submit" class="btn btn-primary">Search!</button>
+        </div>
+      </div>
+    </form>
+    <!-- Search form end -->
+    
+    <!-- Search results -->
+    <div class="text-center pt-5">
+      <h3>The results is...</h3>
+    </div>
+    <div class="row mt-5">
+      <div class="col-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Search results end -->
 
   </div>
-    <div class="row">
-          <div class="col-sm">
-              Something
-          </div>
-          <div class="col-sm">
-              Another
-          </div>
-      </div>
-</div>
+
+  <script type="text/javascript">
+    $(function () {
+      $('#date').datepicker({
+        format: 'mm-dd-yyyy',
+        orientation: 'bottom'
+      });
+    });
+  </script>
+</body>
+</html>
