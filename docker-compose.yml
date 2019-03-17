@@ -33,8 +33,6 @@ services:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
     image: conference_scrapper_production_postgres
-    ports:
-      - 5432:5432
     volumes:
       - local_postgres_data:/var/lib/postgresql/data
       - local_postgres_data_backups:/backups

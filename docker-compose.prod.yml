@@ -16,7 +16,7 @@ services:
     depends_on:
       - django
 
-  django: &django
+  django:
     build:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
