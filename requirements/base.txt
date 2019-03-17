@@ -21,3 +21,4 @@ coreapi==2.3.3  # https://github.com/core-api/python-client
 
 django-json-widget==0.2.0
 Jinja2==2.10
+pandas==0.24.2
