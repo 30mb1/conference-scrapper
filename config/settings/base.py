@@ -257,4 +257,4 @@ ACCOUNT_ADAPTER = 'conference_scrapper.users.adapters.AccountAdapter'
 
 # Your stuff...
 # ------------------------------------------------------------------------------
-EDGE_SOURCE_FILES = ['acm.csv', 'wikicfp.csv']
+SOURCE_FILES = ['acm', 'wikicfp']

@@ -1,30 +1,20 @@
 from django.views.generic.base import TemplateView
-from conference_scrapper.conference.utils import create_graph_from_edge_list
+from conference_scrapper.conference.utils import get_graph_data
+from django.conf import settings
+from django.http import Http404
+
 
 class GraphView(TemplateView):
-    template_name = 'Graph.html'
+    template_name = 'graph.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         file = self.kwargs['filename']
-        g, pos = create_graph_from_edge_list(f'data/{file}.csv')
+        if file not in settings.SOURCE_FILES:
+            raise Http404('Url does not exist')
 
-
-        edge_list = {}
-        for num, (from_, to_) in enumerate(list(g.edges)):
-            edge = g[from_][to_]
-            edge_list[num+1] = (from_, to_, edge['weight'], edge['matches'])
-
-        conf_list = {}
-        for key, value in pos.items():
-            conf_list[key] = (value[0], value[1], key, "", "", "", "", "")
-
+        conf_list, edge_list = get_graph_data(file)
         context['conf_list'] = conf_list
         context['edge_list'] = edge_list
-        context['vert_radius'] = 2
-        context['edge_width'] = 1
-
-        context['canvas_width'] = 1000
-        context['canvas_height'] = 1000
 
         return context

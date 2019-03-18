@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SRS project | Graph visualization</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+
+  <script type="text/javascript">
+    const graphData = {
+      "nodes": {{ conf_list | safe }}
+      {#    [#}
+      {#    #}
+      {#  [1, 2, 123123, { "title": "Boi", "degree": 10 }],#}
+      {#  [3, 1, 456456, { "title": "Doge", "degree": 3 }],#}
+      {#  [3, 3, 789789, { "title": "Ass", "degree": 4 }],#}
+      {#]#}
+        ,
+      "edges": {{ edge_list | safe }}
+
+      {#    [#}
+      {#  [123123, 456456, 5, {}],#}
+      {#  [456456, 789789, 1, {}],#}
+      {#]#}
+    }
+
+    class GraphConnector {
+      static node([x, y, id, meta]) {
+        return {
+          x,
+          y,
+          id,
+          value: meta.degree,
+          label: meta.title,
+        };
+      }
+
+      static edge([from, to, weight, meta]) {
+        return {
+          from,
+          to,
+          value: weight,
+        }
+      }
+    }
+
+    class Graph {
+      constructor({ nodes, edges }) {
+        this.rawNodes = nodes || [];
+        this.rawEdges = edges || [];
+      }
+
+      nodes() {
+        return this.rawNodes.map(n => GraphConnector.node(n));
+      }
+
+      edges() {
+        return this.rawEdges.map(e => GraphConnector.edge(e));
+      }
+    }
+  </script>
+
+  <style type="text/css">
+    #graph {
+      width: 100%;
+      height: 70vh;
+      border: 1px solid lightgray;
+    }
+  </style>
+</head>
+<body class="bg-light">
+  <div class="container">
+    <!-- Header -->
+    <div class="py-5 text-center">
+      <h2>Graph visualization</h2>
+      <p class="lead">Feel free to zoom and drag & drop graph!</p>
+    </div>
+    <!-- Header end -->
+
+    <!-- Graph -->
+    <div id="graph"></div>
+    <!-- Graph end -->
+  </div>
+  <!-- Graph logic -->
+  <script type="text/javascript">
+    const container = document.getElementById('graph');
+    const graph = new Graph(graphData);
+
+    const data = {
+      nodes: graph.nodes(),
+      edges: graph.edges(),
+    };
+
+    const options = {
+      interaction: {
+        dragNodes: false,        
+      },
+      nodes: {
+        shape: 'dot',
+        scaling:{
+          label: {
+            min:8,
+            max:20
+          }
+        }
+      }
+    };
+    const network = new vis.Network(container, data, options);
+  </script>
+  <!-- Graph logic end -->
+</body>
+</html>

@@ -1,5 +1,8 @@
-import pandas as pd
 import json
+from collections import Counter
+
+import networkx as nx
+import pandas as pd
 from django.core.management.base import BaseCommand
 
 
@@ -30,3 +33,28 @@ class Command(BaseCommand):
                         edge_list.append(edge)
             df = pd.DataFrame(edge_list, columns=['id_1', 'id_2', 'n', 'matches'])
             df.to_csv(f'data/{name[:-5]}.csv', index=False)
+
+            tags = []
+            for tag in df['matches']:
+                tags += tag.split('#')
+
+            counts = Counter(tags)
+            # get rid of first 120 most popular tags
+            active_tags = sorted(set(tags), key=lambda x: counts[x], reverse=True)[120:]
+
+            g = nx.Graph()
+            for i, (first, second, weight, tag) in df.iterrows():
+                [g.add_edge(first, second, weight=weight, matches=tag) for j in tag.split('#') if j in active_tags]
+
+            g.remove_nodes_from(list(nx.isolates(g)))
+            pos = nx.spring_layout(g, k=0.05, iterations=20)
+            ids = list(g.nodes())
+
+            degrees = {node: value for node, value in g.degree()}
+            degree = [degrees[elem] for elem in ids]
+            x = [pos[elem][0] for elem in ids]
+            y = [pos[elem][1] for elem in ids]
+
+            d = {'id': ids, 'x': x, 'y': y, 'degree': degree}
+            df = pd.DataFrame(data=d)
+            df.to_csv(f'data/{name[:-5]}_coordinates.csv', index=False)
