@@ -4,7 +4,7 @@ from collections import Counter
 import networkx as nx
 import pandas as pd
 from django.core.management.base import BaseCommand
-
+from conference_scrapper.conference.models import Conference
 
 class Command(BaseCommand):
     help = 'Parses files with raw data and create csv file with edges.'
@@ -15,10 +15,24 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         filenames, separator = options['filenames'], '#'
         for name in filenames:
+            # flush all previous data for this source
+            Conference.objects.filter(source=name[:-5]).delete()
+            objects_to_create = []
             with open(f'data/{name}') as f:
                 data = json.load(f)
             edge_list = []
             for i in range(len(data)):
+                row = data[i]
+                objects_to_create.append(
+                    Conference(
+                        title=row['title'],
+                        url=row['url'],
+                        source=name[:-5],
+                        slug=row['id'],
+                        key_words=row['categories'],
+                        description=row['description']
+                    )
+                )
                 for j in range(i + 1, len(data)):
                     matches = list(set(data[i]['categories']).intersection(data[j]['categories']))
                     if (separator in str(matches)):
@@ -33,6 +47,7 @@ class Command(BaseCommand):
                         edge_list.append(edge)
             df = pd.DataFrame(edge_list, columns=['id_1', 'id_2', 'n', 'matches'])
             df.to_csv(f'data/{name[:-5]}.csv', index=False)
+            Conference.objects.bulk_create(objects_to_create, batch_size=100)
 
             tags = []
             for tag in df['matches']:
