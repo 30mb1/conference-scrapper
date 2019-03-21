@@ -31,10 +31,10 @@
     class GraphConnector {
       static node([x, y, id, meta]) {
         return {
-          x,
-          y,
+          x: x * 10000,
+          y: y * 10000,
           id,
-          value: meta.degree,
+          value: meta.degree * 100,
           label: meta.title,
         };
       }
@@ -91,11 +91,12 @@
     const graph = new Graph(graphData);
 
     const data = {
-      nodes: graph.nodes(),
-      edges: graph.edges(),
+      nodes: new vis.DataSet(graph.nodes()),
+      edges: new vis.DataSet(graph.edges()),
     };
 
     const options = {
+      physics: false,
       interaction: {
         dragNodes: false,        
       },
@@ -103,13 +104,31 @@
         shape: 'dot',
         scaling:{
           label: {
-            min:8,
+            min:10,
             max:20
           }
         }
+      },
+      edges: {
+        smooth: {
+          enabled: false, //setting to true enables curved lines
+        }
+      },
+      manipulation: {
+        enabled: true,
+        editNode: function(data, callback) {
+          console.log('asdasd');
+        },
+        addNode: function (data, callback) {
+            // filling in the popup DOM elements
+            console.log('add', data);
+        },
       }
     };
+
     const network = new vis.Network(container, data, options);
+
+    // TODO: button increse node size
   </script>
   <!-- Graph logic end -->
 </body>
