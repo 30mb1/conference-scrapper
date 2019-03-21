@@ -25,29 +25,48 @@
     <!-- Search form -->
     <form action="/">
       <div class="row form-group">
-        <div class="col-5">
-          <label for="search">Specify your search query</label>
+        <div class="col-11">
+          <label for="search">Specify your search query <b>(required)</b></label>
           <input type="text" class="form-control" id="search" placeholder="E.g computer, science" name="tags" required>
-        </div>
-
-        <div class="col-3">
-          <div class="date">
-            <label for="date">Date</label>
-            <input type="text" class="form-control" id="date" name="date">
-          </div>
-        </div>
-
-        <div class="col-2">
-          <label for="filter">Filter</label>
-          <select class="custom-select d-block" id="filter" name="filter">
-            <option value="">Choose...</option>
-            <option>California</option>
-          </select>
         </div>
 
         <div class="col-1">
           <label>&nbsp;</label>
           <button type="submit" class="btn btn-primary">Search!</button>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col-3">
+          <div class="date">
+            <label for="date">Date</label>
+            <input type="text" autocomplete="false" placeholder="E.g. 2012" class="form-control" id="date" name="date">
+          </div>
+        </div>
+
+        <div class="col-3">
+          <label for="database_to_use">Database to use</label>
+          <select class="custom-select d-block" id="database_to_use" name="database_to_use">
+            <option value="1">Wikicfp</option>
+            <option value="2">ACM</option>
+            <option value="3">Both</option>
+          </select>
+        </div>
+
+        <div class="col-3">
+          <label for="tags_to_use">Tags to use</label>
+          <select class="custom-select d-block" id="tags_to_use" name="tags_to_use">
+            <option value="1">All tags should be included</option>
+            <option value="2">Some tags may should be included</option>
+          </select>
+        </div>
+
+        <div class="col-3">
+          <label for="filter">Filter</label>
+          <select class="custom-select d-block" id="filter" name="filter">
+            <option value="">Choose...</option>
+            <option>California</option>
+          </select>
         </div>
       </div>
     </form>
