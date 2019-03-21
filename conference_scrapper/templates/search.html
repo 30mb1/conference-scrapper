@@ -23,11 +23,11 @@
     <!-- Header end -->
 
     <!-- Search form -->
-    <form>
+    <form action="/">
       <div class="row form-group">
         <div class="col-5">
           <label for="search">Specify your search query</label>
-          <input type="text" class="form-control" id="search" placeholder="e.g. hydra.com" name="search" required>
+          <input type="text" class="form-control" id="search" placeholder="E.g computer, science" name="tags" required>
         </div>
 
         <div class="col-3">
@@ -63,30 +63,20 @@
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
+              <th scope="col">Title</th>
+              <th scope="col">Source</th>
+              <th scope="col">Short name</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
+          {% for conf in objects %}
+              <tr>
+                <th scope="row">{{ forloop.counter0 }}</th>
+              <td>{{ conf.title }}</td>
+              <td>{{ conf.url }}</td>
+              <td>{{ conf.slug }}</td>
+              </tr>
+          {% endfor %}
           </tbody>
         </table>
       </div>
