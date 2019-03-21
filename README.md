@@ -30,3 +30,12 @@ Now you can go to browser and explore application:
 # production
 0.0.0.0
 ```
+## Managing data
+Django have powerful tools that allows us creating flexible and easy to use admin interface. 
+We have set up several for managing scrapped conferences and modify their links (edges).
+To use it, first of all, create superuser:
+```bash
+sudo docker-compose run --rm django python manage.py createsuperuser
+>> enter credentials
+```
+Now go to *127.0.0.1/admin*, login and have fun.
