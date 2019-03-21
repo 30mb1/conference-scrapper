@@ -18,3 +18,10 @@ class GraphView(TemplateView):
         context['edge_list'] = edge_list
 
         return context
+
+class SearchView(TemplateView):
+    template_name = 'search.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
