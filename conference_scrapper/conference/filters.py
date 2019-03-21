@@ -1,11 +1,11 @@
 from conference_scrapper.conference.models import Conference
-from django_filters import CharFilter, FilterSet, NumberFilter
+from django_filters import CharFilter, FilterSet, DateTimeFilter, DateFilter
 from datetime import datetime
 
 
 class ConferenceFilter(FilterSet):
     query = CharFilter(method='filter_query')
-    date = NumberFilter(method='filter_date')
+    date = DateFilter(method='filter_date')
 
     class Meta:
         model = Conference
@@ -23,8 +23,7 @@ class ConferenceFilter(FilterSet):
             return queryset
 
     def filter_date(self, queryset, name, value):
-        date = datetime(year=value, month=1, day=1)
-        queryset = queryset.filter(start_date__lte=date, end_date__gte=date)
+        queryset = queryset.filter(start_date__lte=value, end_date__gte=value)
         return queryset
 
     def filter_title(self, queryset, name, value):
@@ -44,3 +43,4 @@ class ConferenceFilter(FilterSet):
     def filter_url(self, queryset, name, value):
         queryset = queryset.filter(url=value)
         return queryset
+

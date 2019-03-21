@@ -40,7 +40,7 @@
         <div class="col-3">
           <div class="date">
             <label for="date">Date</label>
-            <input type="text" autocomplete="false" placeholder="E.g. 09.03.2012" class="form-control" id="date" name="date">
+            <input type="text" autocomplete="false" placeholder="E.g. 09/03/2012" class="form-control" id="date" name="date">
             <small id="tags_to_use" class="form-text text-muted">Inreval start date < Date < end date will be used.</small>
           </div>
         </div>
@@ -123,7 +123,7 @@
   <script type="text/javascript">
     $(function () {
       $('#date').datepicker({
-        format: "dd.mm.yyyy",
+        format: "dd/mm/yyyy",
         {#viewMode: "years", #}
         {#minViewMode: "years",#}
         orientation: 'bottom'
