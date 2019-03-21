@@ -13,3 +13,11 @@ class Conference(models.Model):
     end_date = models.DateTimeField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     key_words = fields.ArrayField(models.CharField(max_length=256), null=True, blank=True)
+
+
+class ConferenceEdge(models.Model):
+    conf_1 = models.CharField(max_length=32, db_index=True)
+    conf_2 = models.CharField(max_length=32, db_index=True)
+    matches_len = models.PositiveSmallIntegerField()
+    matches = models.CharField(max_length=512)
+    source = models.CharField(max_length=32)

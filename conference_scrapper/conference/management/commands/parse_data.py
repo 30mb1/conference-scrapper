@@ -4,7 +4,7 @@ from collections import Counter
 import networkx as nx
 import pandas as pd
 from django.core.management.base import BaseCommand
-from conference_scrapper.conference.models import Conference
+from conference_scrapper.conference.models import Conference, ConferenceEdge
 
 class Command(BaseCommand):
     help = 'Parses files with raw data and create csv file with edges.'
@@ -17,13 +17,14 @@ class Command(BaseCommand):
         for name in filenames:
             # flush all previous data for this source
             Conference.objects.filter(source=name[:-5]).delete()
-            objects_to_create = []
+            ConferenceEdge.objects.filter(source=name[:-5]).delete()
+            conf_to_create, edge_to_create = [], []
             with open(f'data/{name}') as f:
                 data = json.load(f)
             edge_list = []
             for i in range(len(data)):
                 row = data[i]
-                objects_to_create.append(
+                conf_to_create.append(
                     Conference(
                         title=row['title'],
                         url=row['url'],
@@ -44,10 +45,19 @@ class Command(BaseCommand):
                                 'n': str(len(matches)),
                                 'matches': separator.join(map(lambda x: x.strip(), matches))
                                 }
+                        edge_to_create.append(
+                            ConferenceEdge(
+                                conf_1=edge['id_1'],
+                                conf_2=edge['id_2'],
+                                matches_len=edge['n'],
+                                matches=edge['matches'],
+                                source=name[:-5]
+                            )
+                        )
                         edge_list.append(edge)
             df = pd.DataFrame(edge_list, columns=['id_1', 'id_2', 'n', 'matches'])
-            df.to_csv(f'data/{name[:-5]}.csv', index=False)
-            Conference.objects.bulk_create(objects_to_create, batch_size=100)
+            Conference.objects.bulk_create(conf_to_create, batch_size=100)
+            ConferenceEdge.objects.bulk_create(edge_to_create, batch_size=1000)
 
             tags = []
             for tag in df['matches']:

@@ -1,11 +1,12 @@
+from django_filters import CharFilter, FilterSet, DateFilter
+
 from conference_scrapper.conference.models import Conference
-from django_filters import CharFilter, FilterSet, DateTimeFilter, DateFilter
-from datetime import datetime
 
 
 class ConferenceFilter(FilterSet):
     query = CharFilter(method='filter_query')
     date = DateFilter(method='filter_date')
+    source = CharFilter(method='filter_source')
 
     class Meta:
         model = Conference
@@ -43,4 +44,10 @@ class ConferenceFilter(FilterSet):
     def filter_url(self, queryset, name, value):
         queryset = queryset.filter(url=value)
         return queryset
+
+    def filter_source(self, queryset, name, value):
+        if value == 'all':
+            return queryset
+        else:
+            return queryset.filter(source=value)
 
