@@ -4,10 +4,9 @@ from .base import env
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-SECRET_KEY = env('DJANGO_SECRET_KEY')
+SECRET_KEY = env('DJANGO_SECRET_KEY', default='itD1NaBcbLtda7U7PwdPaxAol1Qsi46ejdzuBs7zFn4rCXHMJGD2zd7gDytx1npY')
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['example.com'])
-
+ALLOWED_HOSTS = ['*']
 # DATABASES
 # ------------------------------------------------------------------------------
 DATABASES['default'] = env.db('DATABASE_URL')  # noqa F405
@@ -28,6 +27,8 @@ DATABASES['default']['CONN_MAX_AGE'] = env.int('CONN_MAX_AGE', default=60)  # no
 #         }
 #     }
 # }
+
+
 
 # # SECURITY
 # # ------------------------------------------------------------------------------
@@ -124,7 +125,7 @@ EMAIL_SUBJECT_PREFIX = env('DJANGO_EMAIL_SUBJECT_PREFIX', default='[Conference S
 # ADMIN
 # ------------------------------------------------------------------------------
 # Django Admin URL regex.
-ADMIN_URL = env('DJANGO_ADMIN_URL')
+ADMIN_URL = 'admin/'
 
 # # Anymail (Mailgun)
 # # ------------------------------------------------------------------------------
@@ -140,13 +141,6 @@ ADMIN_URL = env('DJANGO_ADMIN_URL')
 # Gunicorn
 # ------------------------------------------------------------------------------
 INSTALLED_APPS += ['gunicorn']  # noqa F405
-
-# Collectfast
-# ------------------------------------------------------------------------------
-# https://github.com/antonagestam/collectfast#installation
-INSTALLED_APPS = ['collectfast'] + INSTALLED_APPS  # noqa F405
-AWS_PRELOAD_METADATA = True
-
 
 # LOGGING
 # ------------------------------------------------------------------------------
