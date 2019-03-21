@@ -62,6 +62,7 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'rest_framework',
     'django_json_widget',
+    'django_filters'
 ]
 LOCAL_APPS = [
     'conference_scrapper.users.apps.UsersAppConfig',

@@ -14,6 +14,7 @@ django-crispy-forms==1.7.2  # https://github.com/django-crispy-forms/django-cris
 # Django REST Framework
 djangorestframework==3.9.1  # https://github.com/encode/django-rest-framework
 coreapi==2.3.3  # https://github.com/core-api/python-client
+django-filter==2.1.0
 
 django-json-widget==0.2.0
 Jinja2==2.10
