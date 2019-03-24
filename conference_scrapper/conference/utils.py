@@ -10,7 +10,7 @@ def get_graph_data(slugs=None):
 
     for i in conf_list_db:
         conf_list.append(
-            (i['x_coord'], i['y_coord'], i['id'], {'title': i['slug'], 'degree': i['degree']})
+            [i['x_coord'], i['y_coord'], i['id'], {'title': i['slug'], 'degree': i['degree']}]
         )
         title_to_id[i['slug']] = i['id']
 
