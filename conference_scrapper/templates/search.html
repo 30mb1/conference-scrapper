@@ -40,8 +40,8 @@
         <div class="col-3">
           <div class="date">
             <label for="date">Date</label>
-            <input type="text" autocomplete="false" placeholder="E.g. 09/03/2012" class="form-control" id="date" name="date">
-            <small id="tags_to_use" class="form-text text-muted">Inreval start date < Date < end date will be used.</small>
+            <input type="text" autocomplete="false" placeholder="E.g. 2012" class="form-control" id="date" name="date">
+{#            <small id="tags_to_use" class="form-text text-muted">Inreval start date < Date < end date will be used.</small>#}
           </div>
         </div>
 
@@ -89,9 +89,9 @@
             <tr class="row">
               <th>#</th>
               <th class="col-3">Title</th>
-              <th class="col-3">Source</th>
+              <th class="col-4">Source</th>
               <th class="col-2">Tags</th>
-                <th class="col-2 text-center" >Start date</th>
+                <th class="col-1 text-center" >Start date</th>
                 <th class="col-1" >End date</th>
             </tr>
           </thead>
@@ -100,9 +100,9 @@
               <tr class="row">
               <td>{{ forloop.counter0 }}</td>
               <td class="col-3">{{ conf.title }}</td>
-              <td class="col-3"><a href={{ conf.url }} target='_blank'>{{ conf.url }}</a></td>
+              <td class="col-4"><a href={{ conf.url }} target='_blank'>{{ conf.url }}</a></td>
               <td class="col-2">{{ conf.key_words|join:", " }}</td>
-              <td class="col-2 text-center">{{ conf.start_date }}</td>
+              <td class="col-1 text-center">{{ conf.start_date }}</td>
               <td class="col-1">{{ conf.end_date }}</td>
               </tr>
           {% endfor %}
@@ -129,9 +129,9 @@
   <script type="text/javascript">
     $(function () {
       $('#date').datepicker({
-        format: "dd/mm/yyyy",
-        {#viewMode: "years", #}
-        {#minViewMode: "years",#}
+        format: "yyyy",
+        viewMode: "years",
+        minViewMode: "years",
         orientation: 'bottom'
       });
     });

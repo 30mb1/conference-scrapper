@@ -1,23 +1,22 @@
-import pandas as pd
-from time import time
-from conference_scrapper.conference.models import ConferenceEdge
+from conference_scrapper.conference.models import ConferenceGraphEdge, Conference
 
 
-def get_graph_data(filename, ids=None):
-    coordinates = pd.read_csv(f'data/{filename}_coordinates.csv')
-    slug_dict = {i: True for i in ids}
-
+def get_graph_data(slugs=None):
+    conf_list_db = (Conference
+                    .objects
+                    .filter(slug__in=slugs)
+                    .values('x_coord', 'y_coord', 'id', 'degree', 'slug'))
     conf_list, title_to_id = [], {}
-    for i, (short_title, x, y, degree) in coordinates.iterrows():
-        if short_title in slug_dict:
-            conf_list.append([x, y, i, {'title': short_title, 'degree': degree}])
-            title_to_id[short_title] = i
 
-    conf_ids = list(title_to_id.keys())
-    all_edges = ConferenceEdge.objects.filter(conf_1__in=conf_ids, conf_2__in=conf_ids)
+    for i in conf_list_db:
+        conf_list.append(
+            (i['x_coord'], i['y_coord'], i['id'], {'title': i['slug'], 'degree': i['degree']})
+        )
+        title_to_id[i['slug']] = i['id']
 
-    edge_list = []
-    for edge in all_edges:
-        edge_list.append([title_to_id[edge.conf_1], title_to_id[edge.conf_2], edge.matches_len, edge.matches])
+    edges = ConferenceGraphEdge.objects.filter(conf_1__in=slugs, conf_2__in=slugs)
+    edge_list = [
+        [title_to_id[i.conf_1], title_to_id[i.conf_2], i.matches_len, i.matches] for i in edges
+    ]
 
     return conf_list, edge_list

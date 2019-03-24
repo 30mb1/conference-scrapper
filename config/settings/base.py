@@ -254,8 +254,3 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_ADAPTER = 'conference_scrapper.users.adapters.AccountAdapter'
-
-
-# Your stuff...
-# ------------------------------------------------------------------------------
-SOURCE_FILES = ['acm', 'wikicfp']

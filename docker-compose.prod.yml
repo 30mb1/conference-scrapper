@@ -32,7 +32,6 @@ services:
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
       - DJANGO_SETTINGS_MODULE=config.settings.production
-      - CELERY_BROKER_URL=amqp://rabbitmq:rabbitmq@rabbitmq//
     command: /start
     expose:
       - 8000

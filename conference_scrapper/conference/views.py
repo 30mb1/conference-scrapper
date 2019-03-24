@@ -1,5 +1,3 @@
-from django.conf import settings
-from django.http import Http404
 from django.views.generic import ListView
 from django.views.generic.base import TemplateView
 
@@ -13,17 +11,11 @@ class GraphView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        file = self.kwargs['filename']
-        if file not in settings.SOURCE_FILES:
-            raise Http404('Url does not exist')
-
         slug_list = ConferenceFilter(self.request.GET, Conference.objects.all()).qs.values_list('slug', flat=True)
 
-        conf_list, edge_list = get_graph_data(file, ids=slug_list)
+        conf_list, edge_list = get_graph_data(slugs=slug_list)
         context['conf_list'] = conf_list
         context['edge_list'] = edge_list
-
         return context
 
 

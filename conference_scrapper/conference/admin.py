@@ -1,5 +1,5 @@
 from django.contrib import admin
-from conference_scrapper.conference.models import Conference, ConferenceEdge
+from conference_scrapper.conference.models import Conference, ConferenceGraphEdge
 from django.contrib.postgres import fields
 from django_json_widget.widgets import JSONEditorWidget
 from django.urls import reverse
@@ -21,7 +21,7 @@ class ConferenceAdmin(admin.ModelAdmin):
         fields.JSONField: {'widget': JSONEditorWidget},
     }
 
-@admin.register(ConferenceEdge)
+@admin.register(ConferenceGraphEdge)
 class ConferenceEdgeAdmin(admin.ModelAdmin):
     list_display = ['id', 'get_conf_1', 'get_conf_2', 'matches']
     search_fields = ['conf_1', 'conf_2', 'matches_len', 'matches', 'source']

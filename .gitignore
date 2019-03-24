@@ -11,7 +11,7 @@ __pycache__/
 # C extensions
 *.so
 
-data/*csv
+data/*
 
 staticfiles/*
 # Distribution / packaging

@@ -12,7 +12,6 @@ COPY ./compose/production/django/entrypoint /entrypoint
 RUN sed -i 's/\r//' /entrypoint
 RUN chmod +x /entrypoint
 
-
 WORKDIR /app
 
 ENTRYPOINT ["/entrypoint"]
