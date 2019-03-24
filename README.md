@@ -1,6 +1,6 @@
 # conference-scrapper
 
-## Set up project
+## Installing dependencies
 Install docker and docker-compose:
 ```bash
 chmod +x shell_helpers/*
@@ -8,34 +8,54 @@ sudo ./shell_helpers/install.sh
 ```
 Build docker images:
 ```bash
-# for development version (use django dev server)
+# development version, build main image (django) from scratch
+# django uses dev web-server
 sudo docker-compose build
-# for production (use nginx + gunicorn)
+
+# for production, use prebuilt image with some initial data installed in image
+# django uses nginx + gunicorn
 sudo docker-compose -f docker-compose.prod.yml build
 ```
 
 ## Run app
-Parse data and upload to db:
+#### Data installation
+Before first run, you should upload data to application db.
+Initially, production version has some data included in image and development version doesn't.
+To upload data to db, place it in data directory of application and run:
 ```bash
-sudo docker-compose run --rm django python manage.py parse_data acm.json wikicfp.json
+# add -f docker-compose.prod.yml if production
+sudo docker-compose run --rm django python manage.py load_data
 ```
-Start all containers:
+Prepared data for production is placed in /initial_data directory of image, so that to upload it, run:
 ```bash
-sudo docker-compose (-f docker-compose.prod.yml if production) up -d
+sudo docker-compose -f docker-compose.prod.yml  run --rm django python manage.py load_data /initial_data
+```
+
+#### Starting containers
+To start containers use:
+```bash
+# for development
+sudo docker-compose up -d
+
+# and for production
+sudo docker-compose -f docker-compose.prod.yml up -d
 ```
 Now you can go to browser and explore application:
 ```bash
-# development
+# development version
 127.0.0.1:8000
-# production
+
+# production version
 0.0.0.0
 ```
-## Managing data
+
+## Managing data with admin interface
 Django have powerful tools that allows us creating flexible and easy to use admin interface. 
 We have set up several for managing scrapped conferences and modify their links (edges).
 To use it, first of all, create superuser:
 ```bash
+# add -f docker-compose.prod.yml if it is production
 sudo docker-compose run --rm django python manage.py createsuperuser
 >> enter credentials
 ```
-Now go to *127.0.0.1/admin*, login and have fun.
+Now go to *127.0.0.1/admin*, login and have fun. (replace 127.0.0.1 for appropriate url if production)
