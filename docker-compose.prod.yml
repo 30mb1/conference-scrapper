@@ -13,6 +13,7 @@ services:
       - "80:80"   # I like working on 80 since you don't need to specify and looking neat on URL
     volumes:
       - ./compose/production/nginx/:/etc/nginx/conf.d
+      - .:/app
     depends_on:
       - django
 
