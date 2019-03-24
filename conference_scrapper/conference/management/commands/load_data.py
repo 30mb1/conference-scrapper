@@ -21,6 +21,7 @@ class Command(BaseCommand):
         data_dir = options['data_dir']
         confs, edges = [], []
         for source in os.listdir(data_dir):
+            if source == 'wikicfp.zip': continue
             Conference.objects.filter(source=source).delete()
             ConferenceGraphEdge.objects.filter(source=source).delete()
             with open(f"{data_dir}/{source}/conference_list.json", 'r') as f:
