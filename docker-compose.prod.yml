@@ -17,10 +17,7 @@ services:
       - django
 
   django:
-    build:
-      context: .
-      dockerfile: ./compose/production/django/Dockerfile
-    image: conference_scrapper_production_python
+    image: hse4conf2viz/conf2viz:latest
     depends_on:
       - postgres
     volumes:
