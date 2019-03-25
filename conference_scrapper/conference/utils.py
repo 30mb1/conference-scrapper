@@ -36,11 +36,8 @@ def get_graph_meta(conf_list, edge_list):
 
     graph_info['degree'] = mean([i[1] for i in nx.degree(g)])
     graph_info['density'] = nx.classes.function.density(g)
-    graph_info['degree centrality'] = mean(nx.algorithms.centrality.degree_centrality(g).values())
+    graph_info['degree_centrality'] = mean(nx.algorithms.centrality.degree_centrality(g).values())
     graph_info['closeness_centrality'] = mean(nx.algorithms.centrality.closeness_centrality(g).values())
     graph_info['betweenness_centrality'] = mean(nx.algorithms.centrality.betweenness_centrality(g).values())
 
     return graph_info
-
-
-
