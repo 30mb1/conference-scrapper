@@ -1,9 +1,10 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, View
 from django.views.generic.base import TemplateView
 
 from conference_scrapper.conference.filters import ConferenceFilter
 from conference_scrapper.conference.models import Conference
 from conference_scrapper.conference.utils import get_graph_data
+from django.http import HttpResponse
 
 
 class GraphView(TemplateView):
@@ -35,3 +36,11 @@ class SearchView(ListView):
         context['data_source'] = source
         context['graph_link'] = f"{source}?{self.request.META['QUERY_STRING']}"
         return context
+
+
+class DownloadView(View):
+    def get(self, request, *args, **kwargs):
+        zip_file = open('/initial_data/wikicfp.zip', 'rb')
+        response = HttpResponse(zip_file, content_type='application/force-download')
+        response['Content-Disposition'] = 'attachment; filename=wikicfp.zip'
+        return response
