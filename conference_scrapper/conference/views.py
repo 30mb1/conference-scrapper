@@ -3,7 +3,7 @@ from django.views.generic.base import TemplateView
 
 from conference_scrapper.conference.filters import ConferenceFilter
 from conference_scrapper.conference.models import Conference
-from conference_scrapper.conference.utils import get_graph_data
+from conference_scrapper.conference.utils import get_graph_data, get_graph_meta
 from django.http import HttpResponse
 
 
@@ -17,6 +17,7 @@ class GraphView(TemplateView):
         conf_list, edge_list = get_graph_data(slugs=slug_list)
         context['conf_list'] = conf_list
         context['edge_list'] = edge_list
+        context['graph_info'] = get_graph_meta(conf_list, edge_list)
         return context
 
 
