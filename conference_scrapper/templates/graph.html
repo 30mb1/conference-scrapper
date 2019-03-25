@@ -70,8 +70,26 @@
     </div>
     <!-- Header end -->
 
+    <!-- Menu -->
+    <div class="row text-center mb-2">
+      <div class="col"><a href="#">Download graph</a></div>
+      <div class="col"><a href="#">Search page</a></div>
+      <div class="col"><a href="#">Download graph</a></div>
+      <div class="col"><a href="#">Download graph</a></div>
+      <div class="col"><a href="#">Download graph</a></div>
+    </div>
+    <!-- Menu end -->
+
+    <!-- Preloader -->
+    <div class="row">
+      <div class="col-12 text-center">    
+        <h3 style="padding-top: 30vh" id="preloader"></h3>
+      </div>
+    </div>
+    <!-- Preloader end -->
+
     <!-- Graph -->
-    <div id="graph"></div>
+    <div id="graph" style="display: none"></div>
     <!-- Graph end -->
   </div>
 
@@ -95,8 +113,9 @@
         // },
       },
       physics: {
+        // enabled: false,
         stabilization: {
-          iterations: 1000,
+          iterations: 2000,
         }
       },
       interaction: {
@@ -125,7 +144,22 @@
 
     const network = new vis.Network(container, data, options);
 
-    // TODO: button increse node size
+    // Preloader logic
+    network.on("stabilizationProgress", function(params) {
+        var widthFactor = Math.round(params.iterations / params.total * 100);
+
+        document.getElementById('preloader').textContent = `Rendering status: ${widthFactor}%`;
+        document.getElementById("graph").style.display="none";
+    });
+
+    network.once("stabilizationIterationsDone", function() {
+        document.getElementById("preloader").style.display="none";
+        document.getElementById("graph").style.display="block";
+
+        // Center the network
+        network.fit();
+    });
+
   </script>
   <!-- Graph logic end -->
 </body>
