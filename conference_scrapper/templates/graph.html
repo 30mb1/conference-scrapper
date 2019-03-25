@@ -120,19 +120,36 @@
         dragNodes: false,        
       },
       nodes: {
-        color: '#6A1B9A',
+        color: {
+          border: '#29B6F6',
+          background: '#4FC3F7',
+          highlight: {
+            border: '#0288D1',
+            background: '#039BE5',
+          },
+          // color: '#6A1B9A',
+          // highlight: '#03A9F4',
+        },
         shape: 'dot',
         scaling:{
+          min: 2,
+          max: 10,
           label: {
-            min: 2,
-            max: 20,
+            min: 4,
+            max: 10,
           },
         },
       },
       edges: {
+        selectionWidth: (width) => { return width; },
+        scaling: {
+          min: 0.1,
+          max: 3,
+        },
         color : {
+          highlight: '#FFB300',
           inherit: false,
-          color: '#F9A825',
+          color: '#FFD54F',
         },
         smooth: {
           enabled: false,
