@@ -35,10 +35,7 @@ services:
       - 8000
 
   postgres:
-    build:
-      context: .
-      dockerfile: ./compose/production/postgres/Dockerfile
-    image: conference_scrapper_production_postgres
+    image: hse4conf2viz/postgres1mod:latest
     volumes:
       - production_postgres_data:/var/lib/postgresql/data
       - production_postgres_data_backups:/backups
