@@ -14,7 +14,7 @@ sudo docker-compose build
 
 # for production, use prebuilt image with some initial data installed in image
 # django uses nginx + gunicorn
-sudo docker-compose -f docker-compose.prod.yml build
+sudo docker-compose -f docker-compose.prod.yml pull
 ```
 
 ## Run app
