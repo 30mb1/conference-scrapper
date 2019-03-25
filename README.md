@@ -26,9 +26,9 @@ To upload data to db, place it in data directory of application and run:
 # add -f docker-compose.prod.yml if production
 sudo docker-compose run --rm django python manage.py load_data
 ```
-Prepared data for production is placed in /initial_data directory of image, so that to upload it, run:
+Prepared data for production is placed in image already, so that to upload it, run:
 ```bash
-sudo docker-compose -f docker-compose.prod.yml  run --rm django python manage.py load_data /initial_data
+sudo docker-compose -f docker-compose.prod.yml  run --rm django python manage.py load_data use_prepared
 ```
 
 #### Starting containers

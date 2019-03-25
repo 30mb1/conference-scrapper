@@ -15,10 +15,14 @@ class Command(BaseCommand):
     help = 'Parses files with raw data and create csv file with edges.'
 
     def add_arguments(self, parser):
-        parser.add_argument('data_dir', nargs='?', type=str, default='data')
+        parser.add_argument('use_prepared', nargs='?', type=bool, default=False)
 
     def handle(self, *args, **options):
-        data_dir = options['data_dir']
+        use_prepared = options['use_prepared']
+        if use_prepared:
+            data_dir = '/initial_data'
+        else:
+            data_dir = 'data'
         confs, edges = [], []
         for source in os.listdir(data_dir):
             if source == 'wikicfp.zip': continue
