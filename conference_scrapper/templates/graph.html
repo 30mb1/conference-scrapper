@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -157,7 +156,7 @@
       physics: {
         // enabled: false,
         stabilization: {
-          iterations: 2000,
+          iterations: 2500,
         }
       },
       interaction: {
@@ -185,9 +184,9 @@
         },
       },
       edges: {
-        selectionWidth: (width) => { return width; },
+        selectionWidth: (width) => { return width*3; },
         scaling: {
-          min: 0.1,
+          min: 0.7,
           max: 3,
         },
         color : {
