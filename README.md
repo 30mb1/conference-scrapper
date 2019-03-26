@@ -1,5 +1,20 @@
 # conference-scrapper
 
+## Really fast startup
+If you don't need details and just need to run app, just type these commands:
+```bash
+# if you don't have docker and docker-compose
+chmod +x shell_helpers/*
+sudo ./shell_helpers/install.sh
+
+mkdir data
+sudo docker-compose -f docker-compose.prod.yml pull
+sudo docker-compose -f docker-compose.prod.yml run --rm django python manage.py migrate
+sudo docker-compose -f docker-compose.prod.yml run --rm django python manage.py load_data use_prepared
+sudo docker-compose -f docker-compose.prod.yml up -d
+```
+Go to browser (address 0.0.0.0:81) and have fun!
+
 ## Installing dependencies
 Install docker and docker-compose:
 ```bash
@@ -16,6 +31,15 @@ sudo docker-compose build
 # django uses nginx + gunicorn
 sudo docker-compose -f docker-compose.prod.yml pull
 ```
+Create data directory:
+```bash
+mkdir data
+```
+Set up database:
+```bash
+(-f docker-compose.prod.yml if production)
+sudo docker-compose run --rm django python manage.py migrate
+```
 
 ## Run app
 #### Data installation
@@ -29,11 +53,6 @@ sudo docker-compose run --rm django python manage.py load_data
 Prepared data for production is placed in image already, so that to upload it, run:
 ```bash
 sudo docker-compose -f docker-compose.prod.yml  run --rm django python manage.py load_data use_prepared
-```
-Set up database:
-```bash
-(-f docker-compose.prod.yml if production)
-sudo docker-compose run --rm django python manage.py migrate
 ```
 
 #### Starting containers
@@ -51,7 +70,7 @@ Now you can go to browser and explore application:
 127.0.0.1:8000
 
 # production version
-0.0.0.0
+0.0.0.0:81
 ```
 
 ## Managing data with admin interface
