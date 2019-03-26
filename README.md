@@ -7,13 +7,14 @@ If you don't need details and just need to run app, just type these commands:
 chmod +x shell_helpers/*
 sudo ./shell_helpers/install.sh
 
-mkdir data
-sudo docker-compose -f docker-compose.prod.yml pull
-sudo docker-compose -f docker-compose.prod.yml run --rm django python manage.py migrate
-sudo docker-compose -f docker-compose.prod.yml run --rm django python manage.py load_data use_prepared
-sudo docker-compose -f docker-compose.prod.yml up -d
+# and run
+sudo ./shell_helpers/run.sh
 ```
 Go to browser (address 0.0.0.0:81) and have fun!
+To stop app use:
+```bash
+sudo docker-compose -f docker-compose.prod.yml down
+```
 
 ## Installing dependencies
 Install docker and docker-compose:
