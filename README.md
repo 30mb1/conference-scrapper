@@ -83,4 +83,4 @@ To use it, first of all, create superuser:
 sudo docker-compose run --rm django python manage.py createsuperuser
 >> enter credentials
 ```
-Now go to *127.0.0.1/admin*, login and have fun. (replace 127.0.0.1 for appropriate url if production)
+Now go to *127.0.0.1:8000/admin*, login and have fun. (replace 127.0.0.1:8000 for appropriate url if production)
