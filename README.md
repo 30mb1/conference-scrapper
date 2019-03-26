@@ -30,6 +30,11 @@ Prepared data for production is placed in image already, so that to upload it, r
 ```bash
 sudo docker-compose -f docker-compose.prod.yml  run --rm django python manage.py load_data use_prepared
 ```
+Set up database:
+```bash
+(-f docker-compose.prod.yml if production)
+sudo docker-compose run --rm django python manage.py migrate
+```
 
 #### Starting containers
 To start containers use:

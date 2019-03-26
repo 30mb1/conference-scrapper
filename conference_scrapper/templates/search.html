@@ -88,6 +88,15 @@
     <div class="text-center pt-5">
       <h3>The results is...</h3>
     </div>
+      {% if data_source != 'all' %}
+    <div class="row mt-5 mb-5">
+      <div class="col-12 text-center">
+        <a class="btn btn-primary" href="/graph/{{ graph_link }}" target="_blank">
+          Draw the results
+        </a>
+      </div>
+    </div>
+      {% endif %}
     <div class="row mt-5">
       <div class="col-12">
         <table class="table">
@@ -119,15 +128,7 @@
     <!-- Search results end -->
 
     <!-- Draw the search results -->
-      {% if data_source != 'all' %}
-    <div class="row mt-5 mb-5">
-      <div class="col-12 text-center">
-        <a class="btn btn-primary" href="/graph/{{ graph_link }}" target="_blank">
-          Draw the results
-        </a>
-      </div>
-    </div>
-          {% endif %}
+
   {% endif %}
     <!-- Draw the search results end -->
   </div>
